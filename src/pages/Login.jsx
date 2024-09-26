@@ -125,9 +125,9 @@ const Login = () => {
                     <div className="text-end">
                       <div className="d-grid gap-3">
                         <button className="btn btn-outline-info btn-light text-dark" type="submit">LOGIN</button>
-                        <button className="btn btn-outline-warning btn-light text-dark" type="button">
-                          Don't have any account? Register Now
-                        </button>
+                        <NavLink to={`${baseUrl}/auth/register`} className="btn btn-outline-warning btn-light text-dark">
+                        Don't have any account? Register Now
+                        </NavLink>
                       </div>
                     </div>
                   </form>
