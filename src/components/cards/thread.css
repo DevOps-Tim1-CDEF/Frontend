@@ -1,0 +1,20 @@
+.card {
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.card.border-:hover {
+  filter: drop-shadow(0 0 0.25em gray);
+}
+.card.border-danger:hover {
+  filter: drop-shadow(0 0 0.25em red);
+}
+.card.border-warning:hover {
+  filter: drop-shadow(0 0 0.30em gold);
+}
+.card.border-primary:hover {
+  filter: drop-shadow(0 0 0.25em blue);
+}
+.card.border-info:hover {
+  filter: drop-shadow(0 0 0.35em skyblue);
+}
