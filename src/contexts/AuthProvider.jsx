@@ -15,10 +15,9 @@ export const AuthProvider = ({ children }) => {
     email: "ask@over.bug",
     active: 1,
   });
-  const [registrationData, setRegistrationData] = useState(null); 
 
   return (
-    <AuthContext.Provider value={{ isLogin, setIsLogin, loginData, setLoginData, registrationData, setRegistrationData }}>
+    <AuthContext.Provider value={{ isLogin, setIsLogin, loginData, setLoginData, }}>
       {children}
     </AuthContext.Provider>
   );

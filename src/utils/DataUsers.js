@@ -48,6 +48,10 @@ const findUser = (username, password) => {
   return users.find((user) => user.username == username && user.password == password);
 }
 
+const userExist = (username, email) => {
+  return users.filter((user) => user.username == username || user.email == email).length;
+}
+
 export {
-  users, emptyUser, userDetail, findUser
+  users, emptyUser, userDetail, findUser, userExist
 }

@@ -74,7 +74,7 @@ const PublicLayout = () => {
                   </>
                 ) : (
                   <>
-                    <NavLink className="btn btn-success" to={`${baseUrl}/auth/login`}>
+                    <NavLink className="btn btn-outline-danger" to={`${baseUrl}/auth/login`}>
                       LOGIN
                     </NavLink>
                     <NavLink className="btn btn-outline-success d-md-block d-none" to={`${baseUrl}/auth/register`}>

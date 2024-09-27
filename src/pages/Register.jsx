@@ -1,18 +1,19 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useRegister } from "../hooks/useAuth";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+
 import Swal from "sweetalert2";
 import { baseUrl } from "../utils/format";
-import { useRegister } from "../hooks/useAuth";
-
+import { userExist } from "../utils/DataUsers";
 
 const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState(""); 
+  const [realname, setRealname] = useState("");
+  const [profile, setProfile] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [realName, setRealName] = useState("");
-  const [profileLink, setProfileLink] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false); 
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false); 
 
@@ -26,28 +27,34 @@ const Register = () => {
     form.classList.add("was-validated");
   
     if (form.checkValidity() === true) {
-      if (password === confirmPassword) {
+      if (userExist(username.trim(), email.trim())) {
+        Swal.fire({
+          icon: "error",
+          title: "Username/ Email Already Exist!",
+          text: "Please use another username or email to register your new account.",
+        })
+      } else if (password === confirmPassword) {
         register({
           username,
-          email,
           password,
-          realName,
-          profileLink,
+          realname,
+          profile,
+          email,
         })
         Swal.fire({
-            icon: "success",
-            title: "Registration Successful!",
-            text: "You can now log in.",
+          icon: "success",
+          title: "Registration Success!",
+          text: "You can now log in.",
+          confirmButtonText: "LOGIN NOW"
         }).then(() => {
-            nav(`${baseUrl}/auth/login`);
+          nav(`${baseUrl}/auth/login`);
         });
           
-        Swal.fire({
-            icon: "error",
-            title: "Registration Failed!",
-            text: error.message,
-        });
-          
+        // Swal.fire({
+        //   icon: "error",
+        //   title: "Registration Failed!",
+        //   text: error.message,
+        // });
       } else {
         Swal.fire({
           icon: "error",
@@ -71,13 +78,13 @@ const Register = () => {
         <div className="row row-gap-1 m-0">
           <div className="col-xl-8 offset-xl-2 col-md-10 offset-md-1">
             <div className="border rounded shadow mt-1 px-3 pb-3 bg-black">
-              <div className="text-center py-3">
+              <div className="text-center pt-3">
                 <NavLink to={`${baseUrl}/`} aria-current="page">
                   <img
                     src={`${baseUrl}/assets/img/Bug3.jpeg`}
                     className="img-fluid"
                     alt="logo"
-                    style={{ maxWidth: "180px" }}
+                    style={{ maxWidth: "200px" }}
                   />
                 </NavLink>
               </div>
@@ -88,6 +95,21 @@ const Register = () => {
                     className="needs-validation"
                     noValidate
                   >
+                    <label htmlFor="real-name" className="fw-bold text-white mb-2">REAL NAME</label>
+                    <div className="form-floating mb-3">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="real-name"
+                        placeholder="John Doe"
+                        required
+                        value={realname}
+                        onChange={(e) => setRealname(e.target.value)}
+                      />
+                      <div className="invalid-feedback">Please fill in this field</div>
+                      <label htmlFor="real-name">Your Real Rame</label>
+                    </div>
+
                     <label htmlFor="username" className="fw-bold text-white mb-2">USERNAME</label>
                     <div className="form-floating mb-3">
                       <input
@@ -109,43 +131,27 @@ const Register = () => {
                         type="email"
                         className="form-control"
                         id="email"
-                        placeholder="example@example.com"
+                        placeholder="your@email.com"
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                       />
                       <div className="invalid-feedback">Please enter a valid email address</div>
-                      <label htmlFor="email">example@example.com</label>
+                      <label htmlFor="email">your@email.com</label>
                     </div>
 
-                    <label htmlFor="real-name" className="fw-bold text-white mb-2">REAL NAME</label>
-                    <div className="form-floating mb-3">
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="real-name"
-                        placeholder="John Doe"
-                        required
-                        value={realName}
-                        onChange={(e) => setRealName(e.target.value)}
-                      />
-                      <div className="invalid-feedback">Please fill in this field</div>
-                      <label htmlFor="real-name">ur_real_name</label>
-                    </div>
-
-                    <label htmlFor="profile-link" className="fw-bold text-white mb-2">PROFILE LINK</label>
+                    <label htmlFor="profile-link" className="fw-bold text-white mb-2">PROFILE PICTURE LINK</label>
                     <div className="form-floating mb-3">
                       <input
                         type="url"
                         className="form-control"
                         id="profile-link"
-                        placeholder="https://example.com"
-                        required
-                        value={profileLink}
-                        onChange={(e) => setProfileLink(e.target.value)}
+                        placeholder="https://link.profile-picture.com"
+                        value={profile}
+                        onChange={(e) => setProfile(e.target.value)}
                       />
                       <div className="invalid-feedback">Please enter a valid URL</div>
-                      <label htmlFor="profile-link">https://example.com</label>
+                      <label htmlFor="profile-link">https://link.profile-picture.com</label>
                     </div>
 
                     <label htmlFor="password" className="fw-bold text-white mb-2">PASSWORD</label>
@@ -202,7 +208,7 @@ const Register = () => {
                       <div className="d-grid gap-3">
                         <button className="btn btn-outline-info btn-light text-dark" type="submit">REGISTER</button>
                         <NavLink to={`${baseUrl}/auth/login`} className="btn btn-outline-warning btn-light text-dark">
-                          Already have an account? Login Now
+                          Already have an account? Sign In
                         </NavLink>
                       </div>
                     </div>

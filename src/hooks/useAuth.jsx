@@ -26,16 +26,12 @@ const useLogin = () => {
 };
 
 const useRegister = () => {
-  const { setRegistrationData } = useContext(AuthContext);
-
   const register = (data) => {
     users.push({
       ...data,
       id: users.length,
       active: 1,
     });
-
-    setRegistrationData(data);
   };
 
   return register;
