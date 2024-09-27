@@ -11,6 +11,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import PostThread from "./pages/Post";
+import DetailThread from "./pages/Detail";
 
 const App = () => {
 
@@ -26,7 +27,7 @@ const App = () => {
       <Route path="/" element={<PublicLayout />}>
         <Route index element={<Home />} />
         <Route path="thread/:id">
-          <Route index element={<Welcome />} />
+          <Route index element={<DetailThread />} />
         </Route>
         <Route path="auth">
           <Route index element={<Login />} />
