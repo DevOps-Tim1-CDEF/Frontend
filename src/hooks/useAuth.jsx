@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import AuthContext from "../contexts/AuthProvider";
 
-import { emptyUser } from "../utils/DataUsers";
+import { users, emptyUser } from "../utils/DataUsers";
 
 const useLogout = () => {
   const { setIsLogin, setLoginData } = useContext(AuthContext);
@@ -9,10 +9,10 @@ const useLogout = () => {
   const logout = () => {
     setIsLogin(false);
     setLoginData(emptyUser);
-  }
+  };
 
   return logout;
-}
+};
 
 const useLogin = () => {
   const { setIsLogin, setLoginData } = useContext(AuthContext);
@@ -20,9 +20,25 @@ const useLogin = () => {
   const login = (data) => {
     setIsLogin(true);
     setLoginData(data);
-  }
+  };
 
   return login;
-}
+};
 
-export { useLogout, useLogin };
+const useRegister = () => {
+  const { setRegistrationData } = useContext(AuthContext);
+
+  const register = (data) => {
+    users.push({
+      ...data,
+      id: users.length,
+      active: 1,
+    });
+
+    setRegistrationData(data);
+  };
+
+  return register;
+};
+
+export { useLogout, useLogin, useRegister };
