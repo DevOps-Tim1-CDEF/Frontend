@@ -28,7 +28,7 @@ const PublicLayout = () => {
   }, [url.pathname]);
 
   return <>
-    <div className="d-flex flex-column justify-content-between" style={{minHeight: window.innerHeight}}>
+    <div className="d-flex flex-column justify-content-between">
       <header className="fixed-top">
         <nav className="navbar navbar-expand-lg navbar-dar bg-blac navbar-trans bg-light shadow shadow-sm rounded-bottom p-1 px-md-5">
           <div className="container-fluid mx-xl-5 px-xxl-5">
@@ -91,15 +91,15 @@ const PublicLayout = () => {
       </header>
       { isLogin? <ProfileModal /> : <></> }
 
-      <main style={{ marginTop: 65 }} className="flex-fil">
+      <main>
         <Outlet />
       </main>
 
-      <footer className="p-2 bg-black text-light text-center flex-fill">
+      <footer className="p-2 bg-black text-light text-center">
         Copyright &copy; 2024 by (AB)CDEF. All Right Reserved.
       </footer>
     </div>
   </>
 }
 
-export default PublicLayout
+export default PublicLayout;

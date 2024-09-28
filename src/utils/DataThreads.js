@@ -84,7 +84,7 @@ export const emptyThread = {
   author: -1,   // author id
   contents: "", // html
   snippets: [], // list of filename, type, code
-  status: "",   // [3: Urgent banget (danger), 2: Nanya aja (warning), 1: Iseng doank (success/ primary), 0: Ditutup (secondary)]
+  status: -1,   // [3: Urgent banget (danger), 2: Nanya aja (warning), 1: Iseng doank (success/ primary), 0: Ditutup (secondary)]
   time: "",
 }
 
@@ -120,6 +120,7 @@ export const statusColor = (statusCode) => {
 }
 
 export const statusName = {
+  "-1": "Not Found",
   0: "Closed",
   1: "Iseng Doank",
   2: "Nanya Aja",

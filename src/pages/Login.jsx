@@ -59,7 +59,7 @@ const Login = () => {
 
   return (
     <>
-      <div className="py-4 bg-dark">
+      <div className="py-4 bg-dark vh-100">
         <div className="row row-gap-1 m-0">
           <div className="col-xl-8 offset-xl-2 col-md-10 offset-md-1">
             <div className="border rounded shadow mt-1 px-3 pb-3 bg-black">
@@ -117,12 +117,12 @@ const Login = () => {
                         {visible? <FaRegEye size={25} /> : <FaRegEyeSlash size={25} />}
                       </span>
                     </div>
-                    <div className="text-end mt-2 mb-4">
+                    {/* <div className="text-end mt-2">
                       <NavLink to={`${baseUrl}/auth/forget`} aria-current="page" className="text-decoration-none text-white link-warning fst-italic fw-semibold font-raleway">
                         Forget Password
                       </NavLink>
-                    </div>
-                    <div className="text-end">
+                    </div> */}
+                    <div className="text-end mt-4">
                       <div className="d-grid gap-3">
                         <button className="btn btn-outline-info btn-light text-dark" type="submit">LOGIN</button>
                         <NavLink to={`${baseUrl}/auth/register`} className="btn btn-outline-warning btn-light text-dark">

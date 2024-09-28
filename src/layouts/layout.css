@@ -3,3 +3,8 @@
   backdrop-filter: blur(30px)!important;
   -webkit-backdrop-filter: blur(30px)!important;
 }
+
+main {
+  margin-top: 65px;
+  min-height: 100vh;
+}
