@@ -20,11 +20,11 @@ const ProfileModal = ({}) => {
     <div
       className="modal fade"
       id="profileModal"
-      // tabIndex="-1"
       aria-labelledby="profileModal"
       aria-hidden="true"
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
+      // tabIndex="-1"
+      // data-bs-backdrop="static"
+      // data-bs-keyboard="false"
     >
       <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div className="modal-content">
@@ -42,13 +42,13 @@ const ProfileModal = ({}) => {
               <hr className="border-2 border-dark my-1" />
               <div className="row g-0">
                 <div className="col-4 p-2">
-                  <img src={data.profile} className="img-fluid rounded" alt="..." />
+                  <img src={data.profile} className="img-fluid rounded" alt="No Profpic" />
                 </div>
                 <div className="col-8">
                   <div className="card-body pe-0">
                     <h5 className="card-title mb-0">Hi, I'm <span className="fw-bold text-primary">{data.username}</span>!</h5>
                     <p className="card-text">But in real life, people actually call me <span className="fw-bold text-primary">{data.realname}</span>, hehe :D</p>
-                    <p className="card-text text-muted">
+                    <p className="card-text text-muted text-nowrap text-truncate">
                       <MdOutlineMarkEmailRead size={20} className="me-2" />
                       <a href={`mailto:${data.email}`} target="_blank" className="text-decoration-none">{data.email}</a>
                     </p>

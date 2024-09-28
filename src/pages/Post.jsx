@@ -1,6 +1,5 @@
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
-import moment from "moment";
 import { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import AuthContext from "../contexts/AuthProvider";
@@ -10,16 +9,16 @@ import draftToHtml from "draftjs-to-html";
 import { convertToRaw } from "draft-js";
 import { CodeBlock } from "react-code-block";
 
-import { Avatar } from "@mui/material";
 import { BiEdit } from "react-icons/bi";
 import { FaCode } from "react-icons/fa6";
 import { IoNewspaperOutline } from "react-icons/io5";
 
-import { baseUrl } from "../utils/format";
-import { userDetail } from "../utils/DataUsers";
-import { postThread, statusName } from "../utils/DataThreads";
-import ThreadCard from "../components/cards/Thread";
 import Swal from "sweetalert2";
+import { baseUrl } from "../utils/format";
+import { postThread } from "../utils/DataThreads";
+
+import ThreadCard from "../components/cards/Thread";
+import ThreadDetailCard from "../components/cards/ThreadDetail";
 
 const PostThread = () => {
   const [level, setLevel] = useState(2);
@@ -377,34 +376,7 @@ const PostThread = () => {
                 <br />
                 
                 <h4 className="text-center">Thread Detail <span className="fs-6">(show on detail page)</span></h4>
-                <div className="border rounded p-3 pb-0">
-                  <div className="row m-0 gap-2 align-items-start">
-                    <div className="col-auto p-0">
-                      <Avatar
-                        role="button"
-                        className="ratio ratio-1x1"
-                      >
-                        <img src={userDetail(threadPreview.author).profile} alt="pic" className="img-fluid object-fit-cover" />
-                      </Avatar>
-                    </div>
-                    <div className="col-auto p-0">
-                      <h6 className="card-title mb-0">{userDetail(threadPreview.author).realname}</h6>
-                      <p className="card-title mb-0 small text-secondary">@{userDetail(threadPreview.author).username}</p>
-                    </div>
-                  </div>
-                  <div className="d-flex flex-wrap m-0 mt-2">
-                    <div className="col p-0">
-                      <p className="small mb-0 text-nowrap"><span className="text-secondary me-1">Posted on</span> {moment(threadPreview.time).format("DD MMMM yyyy HH:mm")}</p>
-                    </div>
-                    <div className="col p-0">
-                      <p className="small mb-0 text-nowrap"><span className="text-secondary me-1">Status</span> {statusName[level]}</p>
-                    </div>
-                  </div>
-                  <div
-                    className="card-text mt-2"
-                    dangerouslySetInnerHTML={{ __html: isi }}
-                  />
-                </div>
+                <ThreadDetailCard data={threadPreview} level={level} isi={isi} />
                 <br />
 
                 <h4 className="text-center">Code Snippet(s) <span className="fs-6">(show on detail page)</span></h4>

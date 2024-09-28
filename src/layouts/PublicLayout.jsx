@@ -9,9 +9,11 @@ import { useLogout } from "../hooks/useAuth";
 import { Avatar } from "@mui/material";
 import { FcSearch } from "react-icons/fc";
 import { GoHome } from "react-icons/go";
-import ProfileModal from "../components/modals/Profile";
 
 import { baseUrl } from "../utils/format";
+
+import ProfileModal from "../components/modals/Profile";
+import ProfilePicture from "../components/cards/Profpic";
 
 const PublicLayout = () => {
   const { isLogin, loginData } = useContext(AuthContext);
@@ -61,12 +63,12 @@ const PublicLayout = () => {
                       role="button"
                       data-bs-toggle="modal"
                       data-bs-target="#profileModal"
-                      data-bs-backdrop="static"
-                      data-bs-keyboard="false"
+                      // data-bs-backdrop="static"
+                      // data-bs-keyboard="false"
                       title={`Login as ${loginData.username}`}
-                      className="ratio ratio-1x1"
+                      className="ratio ratio-1x1 bg-danger"
                     >
-                      <img src={loginData.profile} alt="pic" className="img-fluid object-fit-cover" />
+                      <ProfilePicture data={loginData.id} />
                     </Avatar>
                     <button className="btn btn-outline-danger d-sm-block d-none" type="button" onClick={logout}>
                       LOGOUT

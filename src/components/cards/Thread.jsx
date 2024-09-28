@@ -1,10 +1,12 @@
 import "./thread.css";
 
-import moment from "moment";
-
 import { Avatar } from "@mui/material";
+
 import { userDetail } from "../../utils/DataUsers";
 import { statusColor } from "../../utils/DataThreads";
+import { datetimeFormat } from "../../utils/format";
+
+import ProfilePicture from "./Profpic";
 
 const ThreadCard = ({ data }) => {
   return <>
@@ -19,9 +21,9 @@ const ThreadCard = ({ data }) => {
               // data-bs-backdrop="static"
               // data-bs-keyboard="false"
               title="View Detail"
-              className="ratio ratio-1x1"
+              className="ratio ratio-1x1 bg-danger"
             >
-              <img src={userDetail(data.author).profile} alt="pic" className="img-fluid object-fit-cover" />
+              <ProfilePicture data={data.author} />
             </Avatar>
           </div>
           <div className="col-auto p-0">
@@ -29,7 +31,7 @@ const ThreadCard = ({ data }) => {
             <p className="card-title mb-0 small text-secondary">@{userDetail(data.author).username}</p>
           </div>
           <div className="col text-end">
-            <p className="small mb-0">{moment(data.time).format("DD MMMM yyyy HH:mm")}</p>
+            <p className="small mb-0">{datetimeFormat(data.time, "DD MMMM yyyy HH:mm")}</p>
           </div>
         </div>
         {/* <p className="card-text mt-2 overflow-ellipsis-3">
