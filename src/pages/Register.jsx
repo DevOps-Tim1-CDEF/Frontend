@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useRegister } from "../hooks/useAuth";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-
 import Swal from "sweetalert2";
-import { baseUrl } from "../utils/format";
+import axios from "axios";
+import { baseUrl, mainUrl} from "../utils/format";
 import { userExist } from "../utils/DataUsers";
 
 const Register = () => {
@@ -19,42 +18,54 @@ const Register = () => {
 
   const nav = useNavigate();
 
-  const register = useRegister();
-
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     const form = document.querySelector(".needs-validation");
     form.classList.add("was-validated");
-  
+
     if (form.checkValidity() === true) {
       if (userExist(username.trim(), email.trim())) {
         Swal.fire({
           icon: "error",
           title: "Username/ Email Already Exist!",
           text: "Please use another username or email to register your new account.",
-        })
-      } else if (password === confirmPassword) {
-        register({
-          username,
-          password,
-          realname,
-          profile,
-          email,
-        })
-        Swal.fire({
-          icon: "success",
-          title: "Registration Success!",
-          text: "You can now log in.",
-          confirmButtonText: "LOGIN NOW"
-        }).then(() => {
-          nav(`${baseUrl}/auth/login`);
         });
+      } else if (password === confirmPassword) {
+        try{
+          const response = await axios.post(`${mainUrl}user/register`, {
+            username,
+            password,
+            nama: realname, 
+            profile,
+            email,
+          });
+          console.log({
+            username,
+            password,
+            nama: realname,
+            profile,
+            email,
+          });
+
+          Swal.fire({
+            icon: "success",
+            title: "Registration Success!",
+            text: "You can now log in.",
+            confirmButtonText: "LOGIN NOW",
+          }).then(() => {
+            nav(`${baseUrl}/auth/login`);
+          });
+        }
+        catch (error) {
+          const errorMessage = error.response?.data?.message || "Registration failed. Please try again.";
+          console.log(error.response?.data?.message)
+          Swal.fire({
+            icon: "error",
+            title: "Registration Failed!",
+            text: errorMessage,
+          });
           
-        // Swal.fire({
-        //   icon: "error",
-        //   title: "Registration Failed!",
-        //   text: error.message,
-        // });
+        }
       } else {
         Swal.fire({
           icon: "error",
@@ -70,7 +81,6 @@ const Register = () => {
       });
     }
   };
-  
 
   return (
     <>
@@ -107,7 +117,7 @@ const Register = () => {
                         onChange={(e) => setRealname(e.target.value)}
                       />
                       <div className="invalid-feedback">Please fill in this field</div>
-                      <label htmlFor="real-name">Your Real Rame</label>
+                      <label htmlFor="real-name">Your Real Name</label>
                     </div>
 
                     <label htmlFor="username" className="fw-bold text-white mb-2">USERNAME</label>
@@ -122,7 +132,7 @@ const Register = () => {
                         onChange={(e) => setUsername(e.target.value)}
                       />
                       <div className="invalid-feedback">Please fill in this field</div>
-                      <label htmlFor="username">ur_sob_username</label>
+                      <label htmlFor="username">Your Username</label>
                     </div>
 
                     <label htmlFor="email" className="fw-bold text-white mb-2">EMAIL</label>
@@ -137,7 +147,7 @@ const Register = () => {
                         onChange={(e) => setEmail(e.target.value)}
                       />
                       <div className="invalid-feedback">Please enter a valid email address</div>
-                      <label htmlFor="email">your@email.com</label>
+                      <label htmlFor="email">Your Email</label>
                     </div>
 
                     <label htmlFor="profile-link" className="fw-bold text-white mb-2">PROFILE PICTURE LINK</label>
@@ -151,7 +161,7 @@ const Register = () => {
                         onChange={(e) => setProfile(e.target.value)}
                       />
                       <div className="invalid-feedback">Please enter a valid URL</div>
-                      <label htmlFor="profile-link">https://link.profile-picture.com</label>
+                      <label htmlFor="profile-link">Profile Picture URL</label>
                     </div>
 
                     <label htmlFor="password" className="fw-bold text-white mb-2">PASSWORD</label>
@@ -167,7 +177,7 @@ const Register = () => {
                           onChange={(e) => setPassword(e.target.value)}
                         />
                         <div className="invalid-feedback">Please fill in this field</div>
-                        <label htmlFor="password">pass***d</label>
+                        <label htmlFor="password">Password</label>
                       </div>
                       <span
                         className="text-white"
@@ -192,7 +202,7 @@ const Register = () => {
                           onChange={(e) => setConfirmPassword(e.target.value)}
                         />
                         <div className="invalid-feedback">Please fill in this field</div>
-                        <label htmlFor="confirm-password">pass***d</label>
+                        <label htmlFor="confirm-password">Confirm Password</label>
                       </div>
                       <span
                         className="text-white ms-2"
