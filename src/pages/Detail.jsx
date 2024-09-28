@@ -45,9 +45,11 @@ const DetailThread = () => {
   }
 
   useEffect(() => {
-    setThread(findThread(id).thread);
-    setReplies(findThread(id).replies);
-    setComments(getComments(id));
+    findThread(id).then(res => {
+      setThread(res.thread);
+      setComments(res.comments);
+      setReplies(res.replies);
+    })
   }, []);
 
   return (
@@ -130,7 +132,7 @@ const DetailThread = () => {
               <div className="mx-2">
                 {
                   replies.map((reply, i) => {
-                    return <div className="my-3" key={i}>
+                    return <div className="my-3" key={`Reply-${i}`}>
                       <ReplyCard data={reply} />
                     </div>
                   })
@@ -161,8 +163,8 @@ const DetailThread = () => {
               {
                 comments && comments.length? <>
                   {
-                    comments.map((comment) => {
-                      return <div key={comment.id} className="border-top px-2 pt-2">
+                    comments.map((comment, i) => {
+                      return <div key={`Comment-${i}`} className="border-top px-2 pt-2">
                         <CommentCard data={comment} />
                       </div>
                     })

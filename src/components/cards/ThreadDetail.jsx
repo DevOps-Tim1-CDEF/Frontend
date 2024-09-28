@@ -1,7 +1,6 @@
 import { Avatar } from "@mui/material";
 
 import { datetimeFormat } from "../../utils/format";
-import { userDetail } from "../../utils/DataUsers";
 import { statusName } from "../../utils/DataThreads";
 
 import ProfilePicture from "./Profpic";
@@ -19,8 +18,8 @@ const ThreadDetailCard = ({ data, level, isi }) => {
           </Avatar>
         </div>
         <div className="col-auto p-0">
-          <h6 className="card-title mb-0">{userDetail(data.author).realname}</h6>
-          <p className="card-title mb-0 small text-secondary">@{userDetail(data.author).username}</p>
+          <h6 className="card-title mb-0">{data.author.nama}</h6>
+          <p className="card-title mb-0 small text-secondary">@{data.author.username}</p>
         </div>
       </div>
       <div className="d-flex flex-wrap m-0 mt-2">

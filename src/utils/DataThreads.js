@@ -1,3 +1,6 @@
+import axios from "axios";
+import { mainUrl } from "../utils/format";
+
 export let threads = [
   {
     id: 0,
@@ -88,7 +91,9 @@ export const emptyThread = {
   time: "",
 }
 
-export const getThreads = () => {
+export const getThreads = async () => {
+  const data = await axios.get(`${mainUrl}thread`).then((res) => res.data);
+  const threads = data.data;
   return threads.sort((a, b) => b.status - a.status);
 }
 
@@ -97,10 +102,14 @@ export const postThread = (data) => {
   return threads.find((thread) => thread.id == threads.length - 1);
 }
 
-export const findThread = (id) => {
+export const findThread = async (id) => {
+  const data = await axios.get(`${mainUrl}thread/${id}`).then((res) => res.data);
+  const threads = data.data;
+  const replyComment = threads.filter((thread) => thread.depth == 2);
   return {
-    thread: threads.find((thread) => thread.id == id) || emptyThread,
-    replies: (threads.filter((thread) => thread.type == "reply" && thread.ref == id)).sort((a, b) => b.id - a.id),
+    thread: threads.find((thread) => thread.depth == 1) || emptyThread,
+    replies: (replyComment.filter((thread) => thread.status == 2)).sort((a, b) => b.id - a.id),
+    comments: (replyComment.filter((thread) => thread.status == 1)).sort((a, b) => b.id - a.id),
   };
 }
 

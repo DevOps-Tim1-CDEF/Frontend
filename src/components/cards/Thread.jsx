@@ -2,7 +2,6 @@ import "./thread.css";
 
 import { Avatar } from "@mui/material";
 
-import { userDetail } from "../../utils/DataUsers";
 import { statusColor } from "../../utils/DataThreads";
 import { datetimeFormat } from "../../utils/format";
 
@@ -27,8 +26,8 @@ const ThreadCard = ({ data }) => {
             </Avatar>
           </div>
           <div className="col-auto p-0">
-            <h6 className="card-title mb-0">{userDetail(data.author).realname}</h6>
-            <p className="card-title mb-0 small text-secondary">@{userDetail(data.author).username}</p>
+            <h6 className="card-title mb-0">{data.author.realname}</h6>
+            <p className="card-title mb-0 small text-secondary">@{data.author.username}</p>
           </div>
           <div className="col text-end">
             <p className="small mb-0">{datetimeFormat(data.time, "DD MMMM yyyy HH:mm")}</p>
