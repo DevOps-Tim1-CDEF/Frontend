@@ -39,7 +39,7 @@ export let threads = [
     author: 0,
     contents: "<p>Natus sit fugit sunt, deleniti iusto dicta maiores doloribus! Doloremque eos autem saepe repudiandae culpa, illo debitis sit! Quia autem incidunt nostrum. Quam, repudiandae excepturi aspernatur cupiditate ullam placeat. Quisquam sit dicta recusandae natus ipsa fugiat enim odit inventore distinctio ab expedita, deleniti laborum! Sint maxime perspiciatis rerum odio, aliquid explicabo fuga vel quo labore, nobis est molestias. Veniam facilis optio, doloribus ad aspernatur voluptatem totam?</p>",
     snippets: [],
-    status: 2,
+    status: 1,
     time: new Date(),
   },
   {
@@ -48,7 +48,7 @@ export let threads = [
     author: 0,
     contents: "<p>Suscipit delectus cumque sint dolor labore quasi eligendi libero officiis neque possimus accusantium cum consequatur vel, recusandae reiciendis eius laboriosam saepe? Doloribus? Id possimus magnam error itaque omnis rem nihil ex, deleniti animi est libero quasi. Repellat rerum voluptatem itaque? Accusamus dolor necessitatibus ratione. Rem provident corporis a, fugiat recusandae dolorum debitis excepturi itaque vero qui eos earum ab, consectetur voluptatem, repudiandae deserunt aliquid nostrum blanditiis? Voluptatibus nostrum labore inventore. Ipsa nemo incidunt, corporis cumque eveniet voluptas consequuntur consectetur aspernatur quos inventore iure molestiae vero nobis officiis itaque. Repellat iure reprehenderit ad odio autem quaerat nulla voluptas at minima earum? Quis aliquid temporibus perspiciatis laudantium nihil porro vero nostrum! Qui.</p>",
     snippets: [],
-    status: 1,
+    status: 2,
     time: new Date(),
   },
   {
@@ -58,7 +58,7 @@ export let threads = [
     contents: "<p>Vel, soluta qui? Autem eveniet cum deleniti rerum officia ad ab praesentium similique, tenetur, unde cupiditate aut natus doloribus accusamus quod eius! Quod nesciunt, odit corporis deleniti aliquam voluptas accusantium sequi! Blanditiis labore, totam, quisquam saepe facere distinctio id quam, illo ab officiis ullam. At ea corrupti placeat! Sequi laboriosam earum, libero voluptate repellat quam? Iure quisquam exercitationem consequatur a aperiam suscipit enim. Adipisci, tempore. Voluptatibus.</p>",
     snippets: [],
     status: 0,
-    time: new Date(),
+    time: new Date(Date.now() + 960000),
   },
   {
     id: 5,
@@ -87,14 +87,19 @@ export const emptyThread = {
   time: "",
 }
 
+export const getThreads = () => {
+  return threads.sort((a, b) => b.status - a.status);
+}
+
 export const postThread = (data) => {
   threads.push({ ...data, id: threads.length, time: new Date() });
+  return threads.find((thread) => thread.id == threads.length - 1);
 }
 
 export const findThread = (id) => {
   return {
     thread: threads.find((thread) => thread.id == id) || emptyThread,
-    replies: threads.filter((thread) => thread.type == "reply" && thread.ref == id),
+    replies: (threads.filter((thread) => thread.type == "reply" && thread.ref == id)).sort((a, b) => b.id - a.id),
   };
 }
 

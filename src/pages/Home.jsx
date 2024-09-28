@@ -3,8 +3,9 @@ import { NavLink, useNavigate } from "react-router-dom";
 
 import { Fab } from "@mui/material";
 
-import { threads } from "../utils/DataThreads";
+import { getThreads } from "../utils/DataThreads";
 import ThreadCard from "../components/cards/Thread";
+import BlankPage from "../components/loaders/Blank";
 
 const Home = () => {
   const [data, setData] = useState();
@@ -12,7 +13,7 @@ const Home = () => {
   const nav = useNavigate();
 
   useEffect(() => {
-    setData(threads);
+    setData(getThreads());
   }, []);
 
   return (
@@ -34,7 +35,7 @@ const Home = () => {
           </Fab>
         </div>
       </div>
-    ) : <></>
+    ) : <BlankPage />
   )
 }
 

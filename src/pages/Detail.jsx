@@ -3,16 +3,24 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { Avatar } from "@mui/material";
+import { CodeBlock } from "react-code-block";
+import { FaCode } from "react-icons/fa6";
+
 import { findThread, statusName } from "../utils/DataThreads";
 import { userDetail } from "../utils/DataUsers";
-import { FaCode } from "react-icons/fa6";
-import { CodeBlock } from "react-code-block";
+
+import ReplyBox from "../components/modals/ReplyBox";
+import BlankPage from "../components/loaders/Blank";
 
 const DetailThread = () => {
   const id = useParams().id;
 
   const [thread, setThread] = useState();
   const [replies, setReplies] = useState();
+
+  const addReply = (reply) => {
+    setReplies([reply, ...replies]);
+  }
 
   useEffect(() => {
     setThread(findThread(id).thread);
@@ -107,9 +115,17 @@ const DetailThread = () => {
           <div className="row mx-0 mt-4 justify-content-between align-items-center">
             <h4 className="col mb-0">Reply <span className="fs-6 text-secondary">({replies.length})</span></h4>
             <div className="col-auto">
-              <button className="btn btn-success pt-1 shadow-sm">
-                + New Reply
-              </button>
+              {
+                thread.status? <>
+                  <button className="btn btn-success pt-1 shadow-sm" data-bs-toggle="modal" data-bs-target="#replyModal">
+                    + New Reply
+                  </button>
+                </> : <>
+                  <button className="btn btn-success pt-1 disabled" disabled>
+                    + New Reply
+                  </button>
+                </>
+              }
             </div>
           </div>
           <hr className="my-2"/>
@@ -193,8 +209,20 @@ const DetailThread = () => {
                 }
               </div>
             </> : <>
-              <h5 className="text-center pt-4 pb-3">No Reply yet...</h5>
+              <p className="text-center pt-4 pb-3">No Reply yet...</p>
             </>
+          }
+          {
+            thread.status? 
+              <ReplyBox refId={id} addReply={addReply}/> : <>
+                <div className="position-relative">
+                  <hr className="border-warning border-3 mt-2 mb-0" />
+                  <hr className="border-warning border-3 my-1" />
+                  <div className="position-absolute top-50 start-50 translate-middle mt-1">
+                    <h6 className="position-relative bg-white px-2 text-nowrap">THREAD CLOSED</h6>
+                  </div>
+                </div>
+              </>
           }
         </div>
         <div className="col-md-3">
@@ -203,7 +231,7 @@ const DetailThread = () => {
           </div>
         </div>
       </div>
-    </> : <></>
+    </> : <BlankPage />
   )
 }
 

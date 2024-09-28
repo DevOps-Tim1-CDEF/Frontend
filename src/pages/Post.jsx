@@ -94,8 +94,8 @@ const PostThread = () => {
       Swal.fire({
         icon: "error",
         title: "Empty Thread",
-        text: "You must write down your question so other SOBug can help you fixing your code. What can we solve if you don't ptovide your question? X(",
-        confirmButtonColor: "#00b6db",
+        text: "You must write down your question so other SOBug can help you fixing your code. What can we solve if you don't provide your question? X(",
+        // confirmButtonColor: "#00b6db",
       });
     }
   }
