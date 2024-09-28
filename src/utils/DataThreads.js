@@ -83,6 +83,7 @@ export const emptyThread = {
   ref: -1,      // question id
   author: -1,   // author id
   contents: "", // html
+  snippets: [], // list of filename, type, code
   status: "",   // [3: Urgent banget (danger), 2: Nanya aja (warning), 1: Iseng doank (success/ primary), 0: Ditutup (secondary)]
   time: "",
 }

@@ -185,7 +185,7 @@ const DetailThread = () => {
                   value={commentBox}
                   onChange={(e) => setCommentBox(e.target.value)}
                   required
-                  disabled={!isLogin}
+                  disabled={!isLogin || !thread.status}
                 />
                 <button type="submit" className="btn btn-success pt-0 pb-1 col-auto" disabled={commentBox.trim()==""}>
                   <IoSend size={19}/>

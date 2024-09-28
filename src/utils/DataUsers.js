@@ -41,7 +41,7 @@ const emptyUser = {
 }
 
 const userDetail = (id) => {
-  return users.find((user) => user.id == id);
+  return users.find((user) => user.id == id) || emptyUser;
 }
 
 const findUser = (username, password) => {
