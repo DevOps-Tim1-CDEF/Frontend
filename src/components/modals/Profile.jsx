@@ -47,7 +47,7 @@ const ProfileModal = ({}) => {
                 <div className="col-8">
                   <div className="card-body pe-0">
                     <h5 className="card-title mb-0">Hi, I'm <span className="fw-bold text-primary">{data.username}</span>!</h5>
-                    <p className="card-text">But in real life, people actually call me <span className="fw-bold text-primary">{data.realname}</span>, hehe :D</p>
+                    <p className="card-text">But in real life, people actually call me <span className="fw-bold text-primary">{data.nama}</span>, hehe :D</p>
                     <p className="card-text text-muted text-nowrap text-truncate">
                       <MdOutlineMarkEmailRead size={20} className="me-2" />
                       <a href={`mailto:${data.email}`} target="_blank" className="text-decoration-none">{data.email}</a>

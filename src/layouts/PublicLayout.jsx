@@ -58,7 +58,7 @@ const PublicLayout = () => {
               {
                 isLogin? (
                   <>
-                    <h6 className="text-nowrap m-0 fw-normal d-md-block d-none">Hi, {loginData.realname}!</h6>
+                    <h6 className="text-nowrap m-0 fw-normal d-md-block d-none">Hi, {loginData.nama}!</h6>
                     <Avatar
                       role="button"
                       data-bs-toggle="modal"
@@ -68,7 +68,7 @@ const PublicLayout = () => {
                       title={`Login as ${loginData.username}`}
                       className="ratio ratio-1x1 bg-danger"
                     >
-                      <ProfilePicture data={loginData.id} />
+                      <ProfilePicture data={loginData} />
                     </Avatar>
                     <button className="btn btn-outline-danger d-sm-block d-none" type="button" onClick={logout}>
                       LOGOUT
