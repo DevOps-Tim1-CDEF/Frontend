@@ -24,13 +24,7 @@ const Register = () => {
     form.classList.add("was-validated");
 
     if (form.checkValidity() === true) {
-      if (userExist(username.trim(), email.trim())) {
-        Swal.fire({
-          icon: "error",
-          title: "Username/ Email Already Exist!",
-          text: "Please use another username or email to register your new account.",
-        });
-      } else if (password === confirmPassword) {
+      if (password === confirmPassword) {
         try{
           const response = await axios.post(`${mainUrl}user/register`, {
             username,
@@ -57,11 +51,11 @@ const Register = () => {
           });
         }
         catch (error) {
-          const errorMessage = error.response?.data?.message || "Registration failed. Please try again.";
-          console.log(error.response?.data?.message)
+          const errorTitle = error.response?.data?.title || "Registration Failed!";
+          const errorMessage = error.response?.data?.message || "Registration failed. Please try again.";          
           Swal.fire({
             icon: "error",
-            title: "Registration Failed!",
+            title: errorTitle,
             text: errorMessage,
           });
           
