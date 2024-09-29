@@ -5,7 +5,8 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 import Swal from "sweetalert2";
 import { findUser } from "../utils/DataUsers";
-import { baseUrl } from "../utils/format";
+import { baseUrl, mainUrl } from "../utils/format";
+import axios from "axios";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -28,33 +29,41 @@ const Login = () => {
     logout();
   }, []);
 
-  const signin = (e) => {
+  const signin = async (e) => {
     e.preventDefault();
     const form = document.querySelector(".needs-validation");
     form.classList.add("was-validated");
 
-    const data = findUser(username, password);
-
-    if (form.checkValidity() == true) {
-      if (data) {
-        nav(`${baseUrl}/`);
-        login(data);
+    try {
+      if (form.checkValidity() == true) {
+        const res = await axios.post(`${mainUrl}user/login`, { username, password });
+        const data = res.data;
+        if (data) {
+          login(data);
+          nav(`${baseUrl}/`);
+        }
       } else {
         Swal.fire({
-          icon: "error",
-          title: "Login Failed!",
-          text: "Wrong username or password. Please check again",
+          icon: "warning",
+          title: "Empty Field!",
+          text: "Please fill in your Login info",
           // confirmButtonColor: "#00b6db",
         });
       }
-    } else {
-      Swal.fire({
-        icon: "warning",
-        title: "Empty Field!",
-        text: "Please fill in your Login info",
-        // confirmButtonColor: "#00b6db",
-      });
+    } catch (error) {
+      if (error.response){
+        const {title, message} = error.response.data;
+        Swal.fire({
+          icon: "error",
+          title: title,
+          text: message,
+          // confirmButtonColor: "#00b6db",
+        });
+      } else {
+        console.log("error", error);
+      }
     }
+    
   };
 
   return (
