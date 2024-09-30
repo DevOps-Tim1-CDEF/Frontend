@@ -22,7 +22,7 @@ const ThreadDetailCard = ({ data, level, isi }) => {
           <p className="card-title mb-0 small text-secondary">@{data.author.username}</p>
         </div>
       </div>
-      <div className="d-flex flex-wrap m-0 mt-2">
+      <div className="d-flex flex-wrap m-0 mt-2 gap-3">
         <div className="col p-0">
           <p className="small mb-0 text-nowrap"><span className="text-secondary me-1">Posted on</span> {datetimeFormat(data.time, "DD MMMM yyyy HH:mm")}</p>
         </div>

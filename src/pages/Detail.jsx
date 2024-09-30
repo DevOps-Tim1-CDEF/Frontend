@@ -57,6 +57,7 @@ const DetailThread = () => {
       setThread(res.thread);
       setComments(res.comments);
       setReplies(res.replies);
+      console.log(res.thread);
     })
   }, []);
 
@@ -152,15 +153,16 @@ const DetailThread = () => {
           }
           {
             isLogin && thread.status? 
-              <ReplyBox postId={thread._id} addReply={addReply} parent={thread._id} depth={thread.depth + 1}/> : <>
-                <div className="position-relative">
-                  <hr className="border-warning border-3 mt-2 mb-0" />
-                  <hr className="border-warning border-3 my-1" />
-                  <div className="position-absolute top-50 start-50 translate-middle mt-1">
-                    <h6 className="position-relative bg-white px-2 text-nowrap">THREAD CLOSED</h6>
+              <ReplyBox postId={thread._id} addReply={addReply} parent={thread._id} depth={thread.depth + 1}/>
+                : thread.status? <></> : <>
+                  <div className="position-relative">
+                    <hr className="border-warning border-3 mt-2 mb-0" />
+                    <hr className="border-warning border-3 my-1" />
+                    <div className="position-absolute top-50 start-50 translate-middle mt-1">
+                      <h6 className="position-relative bg-white px-2 text-nowrap">THREAD CLOSED</h6>
+                    </div>
                   </div>
-                </div>
-              </>
+                </>
           }
         </div>
         {/* COMMENTS */}

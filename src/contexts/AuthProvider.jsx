@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 import { baseUrl } from "../utils/format";
 const AuthContext = createContext({});
@@ -21,6 +21,15 @@ export const AuthProvider = ({ children }) => {
   //   email: "ask@over.bug",
   //   active: 1,
   // });
+
+  useEffect(() => {
+    const data = sessionStorage.getItem("data");
+
+    if (data) {
+      setIsLogin(true);
+      setLoginData(JSON.parse(data));
+    }
+  }, []);
 
   return (
     <AuthContext.Provider value={{ isLogin, setIsLogin, loginData, setLoginData, }}>

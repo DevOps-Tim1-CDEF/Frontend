@@ -26,7 +26,7 @@ const ThreadCard = ({ data }) => {
             </Avatar>
           </div>
           <div className="col-auto p-0">
-            <h6 className="card-title mb-0">{data.author.realname}</h6>
+            <h6 className="card-title mb-0">{data.author.nama}</h6>
             <p className="card-title mb-0 small text-secondary">@{data.author.username}</p>
           </div>
           <div className="col text-end">
