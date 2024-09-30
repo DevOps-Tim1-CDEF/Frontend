@@ -40,8 +40,11 @@ const PostThread = () => {
 
   const [threadPreview, setThreadPreview] = useState({
     id: -1,
-    type: "question",
-    author: loginData.id,
+    depth: 1,
+    author: {
+      nama: loginData.nama,
+      username: loginData.username,
+    },
     contents: "",
     status: "",
     time: new Date(),
@@ -52,7 +55,7 @@ const PostThread = () => {
   const previewIsi = () => {
     try {
       const htmlString = draftToHtml(convertToRaw(editor.getCurrentContent()));
-      setIsi(htmlString); 
+      setIsi(htmlString);
       setThreadPreview({ ...threadPreview, contents: htmlString, status: level, time: new Date(), });
     } catch (error) {
       setThreadPreview({ ...threadPreview, status: level, time: new Date(), });
@@ -61,7 +64,7 @@ const PostThread = () => {
 
   const postingThread = (e) => {
     e.preventDefault();
-    const form = document.querySelector(".needs-validation");
+    const form = document.querySelector("#form-thread");
     form.classList.add("was-validated");
     if (form.checkValidity()) {
       form.classList.remove("was-validated");
@@ -86,7 +89,8 @@ const PostThread = () => {
           },
         ]
       };
-
+      console.log(data);
+      
       postThread(data);
       nav(`${baseUrl}/`);
     } else {
