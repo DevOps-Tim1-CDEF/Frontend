@@ -3,7 +3,6 @@ import { CodeBlock } from "react-code-block";
 import { Avatar } from "@mui/material";
 import { FaCode } from "react-icons/fa6";
 
-import { userDetail } from "../../utils/DataUsers";
 import { datetimeFormat } from "../../utils/format";
 
 import ProfilePicture from "./Profpic";
@@ -24,8 +23,8 @@ const ReplyCard = ({ data }) => {
           </div>
           <div className="col-auto p-0">
             <h6 className="card-title mb-0">
-              {userDetail(data.author).realname}
-              <span className="small text-secondary"> (@{userDetail(data.author).username})</span>
+              {data.author.realname}
+              <span className="small text-secondary"> (@{data.author.username})</span>
             </h6>
             {/* <p className="card-title mb-0 small text-secondary"></p> */}
             <p className="small mt-1 mb-0 text-nowrap"><span className="text-secondary me-1">Reply on</span> {datetimeFormat(data.time, "DD MMMM yyyy HH:mm")}</p>

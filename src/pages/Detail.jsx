@@ -7,7 +7,7 @@ import { FaCode } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 
 import { findThread } from "../utils/DataThreads";
-import { getComments, postComment } from "../utils/DataComments";
+import { postThread } from "../utils/DataThreads";
 
 import ReplyBox from "../components/modals/ReplyBox";
 import BlankPage from "../components/loaders/Blank";
@@ -26,28 +26,38 @@ const DetailThread = () => {
 
   const { loginData, isLogin } = useContext(AuthContext);
 
-  const addReply = (reply) => {
-    setReplies([reply, ...replies]);
+  const addReply = async (data) => {
+    const newReply = await postThread(data);
+    setReplies([...replies, newReply]);
   }
 
-  const postingComment = (e) => {
+  const addComment = async (data) => {
+    const newComment = await postThread(data);
+    setComments([...comments, newComment]);
+    setCommentBox("");
+    document.getElementById("comments-box").scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  const postingComment = async (e) => {
     e.preventDefault();
-    if (isLogin) {
-      const data = {
-        author: loginData.id,
-        ref: id,
-        contents: commentBox,
-      }
-      setComments([postComment(data), ...comments]);
-      setCommentBox("");
-      document.getElementById("comments-box").scrollTo({ top: 0, behavior: "smooth" });
+
+    const data = {
+      postId: thread._id,
+      author: loginData._id,
+      parentId: e.target.dataset.parent,
+      depth: e.target.dataset.depth,
+      contents: commentBox,
+      status: 1, //to differentiate reply and comment, comment's status is always 1
     }
+    await addComment(data);
   }
 
   useEffect(() => {
-    setThread(findThread(id).thread);
-    setReplies(findThread(id).replies);
-    setComments(getComments(id));
+    findThread(id).then(res => {
+      setThread(res.thread);
+      setComments(res.comments);
+      setReplies(res.replies);
+    })
   }, []);
 
   return (
@@ -130,7 +140,7 @@ const DetailThread = () => {
               <div className="mx-2">
                 {
                   replies.map((reply, i) => {
-                    return <div className="my-3" key={i}>
+                    return <div className="my-3" key={`Reply-${i}`}>
                       <ReplyCard data={reply} />
                     </div>
                   })
@@ -142,7 +152,7 @@ const DetailThread = () => {
           }
           {
             isLogin && thread.status? 
-              <ReplyBox refId={id} addReply={addReply}/> : <>
+              <ReplyBox postId={thread._id} addReply={addReply} parent={thread._id} depth={thread.depth + 1}/> : <>
                 <div className="position-relative">
                   <hr className="border-warning border-3 mt-2 mb-0" />
                   <hr className="border-warning border-3 my-1" />
@@ -161,9 +171,9 @@ const DetailThread = () => {
               {
                 comments && comments.length? <>
                   {
-                    comments.map((comment) => {
-                      return <div key={comment.id} className="border-top px-2 pt-2">
-                        <CommentCard data={comment} />
+                    comments.map((comment, i) => {
+                      return <div key={`Comment-${i}`} className="border-top px-2 pt-2">
+                        <CommentCard data={comment}/>
                       </div>
                     })
                   }
@@ -173,7 +183,12 @@ const DetailThread = () => {
               }
             </div>
             <div className="p-2 bg-light rounded-bottom">
-              <form className="row m-1 gap-2" onSubmit={postingComment} title={isLogin? "" : "Please Login for leaving Comment."}>
+              <form className="row m-1 gap-2"
+                onSubmit={postingComment}
+                data-parent={thread._id}
+                data-depth={thread.depth + 1}
+                title={isLogin? "" : "Please Login for leaving Comment."}
+              >
                 <input 
                   type="text" 
                   name="comment-box" 

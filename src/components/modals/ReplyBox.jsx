@@ -7,9 +7,8 @@ import { FaCode } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 
 import Swal from "sweetalert2";
-import { postThread } from "../../utils/DataThreads";
 
-const ReplyBox = ({ refId, addReply }) => {
+const ReplyBox = ({ addReply, postId, parent, depth }) => {
   const [answer, setAnswer] = useState("");
   const [snippet, setSnippet] = useState("");
   const [filename, setFilename] = useState("");
@@ -17,24 +16,28 @@ const ReplyBox = ({ refId, addReply }) => {
 
   const { loginData } = useContext(AuthContext);
 
-  const postingAnswer = (e) => {
+  const postingAnswer = async (e) => {
     e.preventDefault();
+    
     if (answer.trim() != "") {
-      const data = {
-        type: "reply",
-        ref: refId,
-        author: loginData.id,
+      let contentData = {
+        postId: postId,
+        author: loginData._id,
+        parentId: parent,
+        depth: depth,
         contents: `<p>${answer}</p>`,
-        snippets: [
+        status: 2, //to differentiate reply and comment, reply's status is always 2,
+      }
+      if (filename || snippet){
+        contentData.snippets = [
           {
             filename: filename,
             type: type,
             code: snippet,
           },
-        ]
-      };
-
-      addReply(postThread(data));
+        ];
+      }
+      await addReply(contentData);
       document.getElementById("close-reply").click();
     } else {
       Swal.fire({

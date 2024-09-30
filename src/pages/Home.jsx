@@ -13,16 +13,18 @@ const Home = () => {
   const nav = useNavigate();
 
   useEffect(() => {
-    setData(getThreads());
+    getThreads().then(res => {
+      setData(res);
+    })
   }, []);
-
+  
   return (
     data? (
       <div className="container-fluid py-3">
         {
-          data.filter((thread) => thread.type == "question").map((thread) =>
-            <div key={thread.id} className="row justify-content-center mb-3">
-              <NavLink className="col col-xxl-8 col-lg-9 col-md-10 text-decoration-none" to={`thread/${thread.id}`}>
+          data.map((thread) =>
+            <div key={thread._id} className="row justify-content-center mb-3">
+              <NavLink className="col col-xxl-8 col-lg-9 col-md-10 text-decoration-none" to={`thread/${thread._id}`}>
                 <ThreadCard data={thread} />
               </NavLink>
             </div>

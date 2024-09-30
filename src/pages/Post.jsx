@@ -39,9 +39,12 @@ const PostThread = () => {
   const { loginData } = useContext(AuthContext);
 
   const [threadPreview, setThreadPreview] = useState({
-    id: -1,
-    type: "question",
-    author: loginData.id,
+    depth: 1,
+    author: {
+      username: loginData.username,
+      profile: loginData.profile,
+      nama: loginData.nama,
+    },
     contents: "",
     status: "",
     time: new Date(),
@@ -52,42 +55,46 @@ const PostThread = () => {
   const previewIsi = () => {
     try {
       const htmlString = draftToHtml(convertToRaw(editor.getCurrentContent()));
-      setIsi(htmlString); 
+      setIsi(htmlString);
       setThreadPreview({ ...threadPreview, contents: htmlString, status: level, time: new Date(), });
     } catch (error) {
       setThreadPreview({ ...threadPreview, status: level, time: new Date(), });
     }
   };
 
-  const postingThread = (e) => {
+  const postingThread = async (e) => {
     e.preventDefault();
-    const form = document.querySelector(".needs-validation");
+    const form = document.querySelector("#form-thread");
     form.classList.add("was-validated");
     if (form.checkValidity()) {
       form.classList.remove("was-validated");
+      let data = {...threadPreview, author: loginData._id, snippets: []};
+      try {
+        delete data.time;
+      } catch (error) {}
 
-      const data = {
-        ...threadPreview,
-        snippets: [
-          {
-            filename: filename1,
-            type: type1,
-            code: snippet1,
-          },
-          {
-            filename: filename2,
-            type: type2,
-            code: snippet2,
-          },
-          {
-            filename: filename3,
-            type: type3,
-            code: snippet3,
-          },
-        ]
-      };
-
-      postThread(data);
+      if (filename1 || snippet1){
+        data.snippets.push({
+          filename: filename1,
+          type: type1,
+          code: snippet1,
+        })
+      }
+      if (filename2 || snippet2){
+        data.snippets.push({
+          filename: filename2,
+          type: type2,
+          code: snippet2,
+        })
+      }
+      if (filename3 || snippet3){
+        data.snippets.push({
+          filename: filename3,
+          type: type3,
+          code: snippet3,
+        })
+      }
+      await postThread(data);
       nav(`${baseUrl}/`);
     } else {
       Swal.fire({
