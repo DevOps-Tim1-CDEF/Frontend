@@ -26,8 +26,9 @@ const DetailThread = () => {
 
   const { loginData, isLogin } = useContext(AuthContext);
 
-  const addReply = (reply) => {
-    setReplies([reply, ...replies]);
+  const addReply = async (data) => {
+    const newReply = await postThread(data);
+    setReplies([...replies, newReply]);
   }
 
   const addComment = async (data) => {
