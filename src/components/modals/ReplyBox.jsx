@@ -16,45 +16,29 @@ const ReplyBox = ({ addReply, postId, parent, depth }) => {
 
   const { loginData } = useContext(AuthContext);
 
-  const snippetValidation = () => {
-    // check if user has snippet, all the filename, type, and snippet code should not be empty;
-    const andGate = snippet != "" && filename != "" && type != "";
-    const orGate = snippet != "" || filename != "" || type != "";
-    return andGate === orGate;
-  }
-
   const postingAnswer = async (e) => {
     e.preventDefault();
     
     if (answer.trim() != "") {
-      if (snippetValidation()){
-        let contentData = {
-          postId: postId,
-          author: loginData._id,
-          parentId: parent,
-          depth: depth,
-          contents: `<p>${answer}</p>`,
-          status: 2, //to differentiate reply and comment, reply's status is always 2,
-        }
-        if (snippet != ""){
-          contentData.snippets = [
-            {
-              filename: filename,
-              type: type,
-              code: snippet,
-            },
-          ];
-        }
-        await addReply(contentData);
-        document.getElementById("close-reply").click();
+      let contentData = {
+        postId: postId,
+        author: loginData._id,
+        parentId: parent,
+        depth: depth,
+        contents: `<p>${answer}</p>`,
+        status: 2, //to differentiate reply and comment, reply's status is always 2,
       }
-      else {
-        Swal.fire({
-          icon: "error",
-          title: "Empty Snippet Field!",
-          text: "Fill in the filename, language, and code if you want to include this snippet! X(",
-        });
+      if (filename || snippet){
+        contentData.snippets = [
+          {
+            filename: filename,
+            type: type,
+            code: snippet,
+          },
+        ];
       }
+      await addReply(contentData);
+      document.getElementById("close-reply").click();
     } else {
       Swal.fire({
         icon: "error",
