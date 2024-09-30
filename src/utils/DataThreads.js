@@ -91,14 +91,19 @@ export const emptyThread = {
   time: "",
 }
 
+// TODO add proper return when error
 export const getThreads = async () => {
-  const data = await axios.get(`${mainUrl}thread`).then((res) => res.data);
-  const threads = data.data;
-  return threads.sort((a, b) => b.status - a.status);
+  try {
+    const data = await axios.get(`${mainUrl}thread`).then((res) => res.data);
+    const threads = data.data;
+    return threads.sort((a, b) => b.status - a.status);
+  } catch (error) {
+    console.log(error);
+    return {};
+  }
 }
 
 export const postThread = async (data) => {
-  console.log(data);
   try {
     const res = await axios.post(`${mainUrl}thread`, data,
       {
@@ -107,28 +112,27 @@ export const postThread = async (data) => {
         }
       }
     )
-    console.log(res.data);
     return res.data.data;
   } catch (error) {
     console.log(error);
-    return ({
-      title: 'Error when posting!',
-      message: 'Please try again'
-    })
+    return {};
   }
-  // threads.push({ ...data, id: threads.length, time: new Date() });
-  // return threads.find((thread) => thread.id == threads.length - 1);
 }
 
 export const findThread = async (id) => {
-  const data = await axios.get(`${mainUrl}thread/${id}`).then((res) => res.data);
-  const threads = data.data;
-  const replyComment = threads.filter((thread) => thread.depth == 2);
-  return {
-    thread: threads.find((thread) => thread.depth == 1) || emptyThread,
-    replies: (replyComment.filter((thread) => thread.status == 2)).sort((a, b) => b.id - a.id),
-    comments: (replyComment.filter((thread) => thread.status == 1)).sort((a, b) => b.id - a.id),
-  };
+  try {
+    const data = await axios.get(`${mainUrl}thread/${id}`).then((res) => res.data);
+    const threads = data.data;
+    const replyComment = threads.filter((thread) => thread.depth == 2);
+    return {
+      thread: threads.find((thread) => thread.depth == 1) || emptyThread,
+      replies: (replyComment.filter((thread) => thread.status == 2)).sort((a, b) => b.id - a.id),
+      comments: (replyComment.filter((thread) => thread.status == 1)).sort((a, b) => b.id - a.id),
+    };
+  } catch (error) {
+    console.log(error);
+    return {};
+  }
 }
 
 export const statusColor = (statusCode) => {
