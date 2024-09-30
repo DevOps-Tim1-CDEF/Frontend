@@ -97,9 +97,27 @@ export const getThreads = async () => {
   return threads.sort((a, b) => b.status - a.status);
 }
 
-export const postThread = (data) => {
-  threads.push({ ...data, id: threads.length, time: new Date() });
-  return threads.find((thread) => thread.id == threads.length - 1);
+export const postThread = async (data) => {
+  console.log(data);
+  try {
+    const res = await axios.post(`${mainUrl}thread`, data,
+      {
+        headers: {
+          'Authorization': sessionStorage.getItem('token'),
+        }
+      }
+    )
+    console.log(res.data);
+    return res.data.data;
+  } catch (error) {
+    console.log(error);
+    return ({
+      title: 'Error when posting!',
+      message: 'Please try again'
+    })
+  }
+  // threads.push({ ...data, id: threads.length, time: new Date() });
+  // return threads.find((thread) => thread.id == threads.length - 1);
 }
 
 export const findThread = async (id) => {
