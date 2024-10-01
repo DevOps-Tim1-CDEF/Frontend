@@ -1,5 +1,6 @@
 import axios from "axios";
 import { mainUrl } from "../utils/format";
+import { emptyUser } from "./DataUsers";
 
 export let threads = [
   {
@@ -84,7 +85,8 @@ export const emptyThread = {
   id: -1,
   type: "",     // [question, reply]
   ref: -1,      // question id
-  author: -1,   // author id
+  depth: -1,
+  author: emptyUser,   // author id
   contents: "", // html
   snippets: [], // list of filename, type, code
   status: -1,   // [3: Urgent banget (danger), 2: Nanya aja (warning), 1: Iseng doank (success/ primary), 0: Ditutup (secondary)]
@@ -131,7 +133,11 @@ export const findThread = async (id) => {
     };
   } catch (error) {
     console.log(error);
-    return {};
+    return {
+      thread: emptyThread,
+      replies: emptyThread,
+      comments: emptyThread,
+    };
   }
 }
 
