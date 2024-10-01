@@ -25,41 +25,52 @@ const Register = () => {
 
     if (form.checkValidity() === true) {
       if (password === confirmPassword) {
-        try{
-          const response = await axios.post(`${mainUrl}user/register`, {
-            username,
-            password,
-            nama: realname, 
-            profile,
-            email,
-          });
-          console.log({
-            username,
-            password,
-            nama: realname,
-            profile,
-            email,
-          });
-
-          Swal.fire({
-            icon: "success",
-            title: "Registration Success!",
-            text: "You can now log in.",
-            confirmButtonText: "LOGIN NOW",
-          }).then(() => {
-            nav(`${baseUrl}/auth/login`);
-          });
-        }
-        catch (error) {
-          const errorTitle = error.response?.data?.title || "Registration Failed!";
-          const errorMessage = error.response?.data?.message || "Registration failed. Please try again.";          
-          Swal.fire({
-            icon: "error",
-            title: errorTitle,
-            text: errorMessage,
-          });
-          
-        }
+        Swal.fire({
+          title: "Please Wait...",
+          text: "We're trying to signing you up ^^",
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          showConfirmButton: false,
+          willOpen: async () => {
+            Swal.showLoading();
+            
+            try{
+              const response = await axios.post(`${mainUrl}user/register`, {
+                username,
+                password,
+                nama: realname, 
+                profile,
+                email,
+              });
+              console.log({
+                username,
+                password,
+                nama: realname,
+                profile,
+                email,
+              });
+    
+              Swal.fire({
+                icon: "success",
+                title: "Registration Success!",
+                text: "You can now log in.",
+                confirmButtonText: "LOGIN NOW",
+              }).then(() => {
+                nav(`${baseUrl}/auth/login`);
+                sessionStorage.setItem("uname", username);
+              });
+            }
+            catch (error) {
+              const errorTitle = error.response?.data?.title || "Registration Failed!";
+              const errorMessage = error.response?.data?.message || "Registration failed. Please try again.";          
+              Swal.fire({
+                icon: "error",
+                title: errorTitle,
+                text: errorMessage,
+              });
+            }
+          }
+        });
       } else {
         Swal.fire({
           icon: "error",

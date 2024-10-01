@@ -94,9 +94,9 @@ export const emptyThread = {
 }
 
 // TODO add proper return when error
-export const getThreads = async () => {
+export const getThreads = async (filter) => {
   try {
-    const data = await axios.get(`${mainUrl}thread`).then((res) => res.data);
+    const data = await axios.post(`${mainUrl}thread`, {filter}).then((res) => res.data);
     const threads = data.data;
     return threads.sort((a, b) => b.status - a.status);
   } catch (error) {
@@ -107,7 +107,7 @@ export const getThreads = async () => {
 
 export const postThread = async (data) => {
   try {
-    const res = await axios.post(`${mainUrl}thread`, data,
+    const res = await axios.post(`${mainUrl}thread/posting`, data,
       {
         headers: {
           'Authorization': sessionStorage.getItem('token'),

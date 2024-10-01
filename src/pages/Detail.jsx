@@ -57,7 +57,6 @@ const DetailThread = () => {
       setThread(res.thread);
       setComments(res.comments);
       setReplies(res.replies);
-      console.log(res.thread);
     })
   }, []);
 

@@ -22,9 +22,9 @@ const Login = () => {
   const login = useLogin();
 
   useEffect(() => {
-    // const uname_from_session = sessionStorage.getItem("uname");
-    // setUsername(uname_from_session || "");
-    // sessionStorage.removeItem("uname");
+    const uname_from_session = sessionStorage.getItem("uname");
+    setUsername(uname_from_session || "");
+    sessionStorage.removeItem("uname");
 
     logout();
   }, []);
@@ -36,12 +36,23 @@ const Login = () => {
 
     try {
       if (form.checkValidity() == true) {
-        const res = await axios.post(`${mainUrl}user/login`, { username, password });
-        const data = res.data;
-        if (data) {
-          login(data);
-          nav(`${baseUrl}/`);
-        }
+        Swal.fire({
+          title: "Please Wait...",
+          text: "We're trying to signing you in ^^",
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          showConfirmButton: false,
+          willOpen: async () => {
+            Swal.showLoading();
+            const res = await axios.post(`${mainUrl}user/login`, { username, password });
+            const data = res.data;
+            if (data) {
+              Swal.close();
+              nav(`${baseUrl}/`);
+              login(data);
+            }
+          }
+        })
       } else {
         Swal.fire({
           icon: "warning",

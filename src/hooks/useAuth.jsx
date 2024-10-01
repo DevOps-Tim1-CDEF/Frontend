@@ -9,8 +9,8 @@ const useLogout = () => {
   const logout = () => {
     setIsLogin(false);
     setLoginData(emptyUser);
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("id");
+    
+    sessionStorage.clear();
   };
 
   return logout;
