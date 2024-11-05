@@ -1,6 +1,6 @@
 import moment from "moment";
 
-export const baseUrl = "/StuckOverBug";
+export const baseUrl = "";
 export const mainUrl = "http://localhost:2500/"
 
 export const datetimeFormat = (datetime, format = "DD/MM/YYYY HH:mm") => {
