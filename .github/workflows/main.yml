@@ -27,4 +27,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: r10f/stuckoverbug-server:latest
+          tags: r10f/stuckoverbug-client:latest
