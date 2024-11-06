@@ -24,7 +24,8 @@ jobs:
       - name: build and push docker image to registry
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: "{{defaultContext}}"
           file: ./Dockerfile
           push: true
-          tags: r10f/stuckoverbug-client:latest
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
