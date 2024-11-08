@@ -3,10 +3,9 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useLogin, useLogout } from "../hooks/useAuth";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
-import Swal from "sweetalert2";
-import { findUser } from "../utils/DataUsers";
-import { baseUrl, mainUrl } from "../utils/format";
 import axios from "axios";
+import Swal from "sweetalert2";
+import { baseUrl, mainUrl } from "../utils/format";
 
 const Login = () => {
   const [username, setUsername] = useState("");

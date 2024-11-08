@@ -10,7 +10,7 @@ import { findThread } from "../utils/DataThreads";
 import { postThread } from "../utils/DataThreads";
 
 import ReplyBox from "../components/modals/ReplyBox";
-import BlankPage from "../components/loaders/Blank";
+import Loading from "../components/loaders/Loading";
 import ReplyCard from "../components/cards/Reply";
 import CommentCard from "../components/cards/Comment";
 import ThreadDetailCard from "../components/cards/ThreadDetail";
@@ -211,7 +211,7 @@ const DetailThread = () => {
           </div>
         </div>
       </div>
-    </> : <BlankPage />
+    </> : <Loading />
   )
 }
 

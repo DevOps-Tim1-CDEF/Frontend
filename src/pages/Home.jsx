@@ -6,7 +6,7 @@ import { Fab } from "@mui/material";
 
 import { getThreads } from "../utils/DataThreads";
 import ThreadCard from "../components/cards/Thread";
-import BlankPage from "../components/loaders/Blank";
+import Loading from "../components/loaders/Loading";
 
 const Home = () => {
   const [data, setData] = useState();
@@ -55,7 +55,7 @@ const Home = () => {
           </div>
         </>
       )
-    ) : <BlankPage />
+    ) : <Loading />
   )
 }
 
