@@ -16,10 +16,11 @@ const Home = () => {
   const { filter } = useContext(SearchContext);
 
   useEffect(() => {
-    getThreads(filter.trim()).then(res => {
-      setData(res);
-    })
-    
+    setTimeout(() => {  // hanya utk nampakin loading sementara
+      getThreads(filter.trim()).then(res => {
+        setData(res);
+      });
+    }, 2500);
   }, [filter]);
   
   return (
