@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stuckoverbug-client
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: stuckoverbug-client
+  template:
+    metadata:
+      labels:
+        app: stuckoverbug-client
+    spec:
+      containers:
+        - name: stuckoverbug-client
+          image: r10f/stuckoverbug-client:main
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stuckoverbug-client
+spec:
+  type: NodePort
+  ports:
+    - port: 80 # Service port
+      targetPort: 80 # Container port
+      nodePort: 30002
+      protocol: TCP
+  selector:
+    app: stuckoverbug-client
