@@ -15,6 +15,7 @@ spec:
       containers:
         - name: stuckoverbug-client
           image: r10f/stuckoverbug-client:main
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
 ---
